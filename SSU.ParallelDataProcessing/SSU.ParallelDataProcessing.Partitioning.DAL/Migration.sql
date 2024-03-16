@@ -1,0 +1,74 @@
+USE [SSU.ParallelProcessing]
+GO
+
+/****** Object:  Table [dbo].[User_Master]    Script Date: 16.03.2024 22:05:23 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[User_Master](
+	[Id] [int] NOT NULL IDENTITY(1,1),
+	[Login] [nvarchar](50) NULL,
+	[Email] [nvarchar](255) NULL,
+	[FullName] [nvarchar](50) NULL,
+	[Age] [tinyint] NULL,
+ CONSTRAINT [PK_User_Master] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[User_Slave1](
+	[Id] [int] NOT NULL IDENTITY(1,1),
+	[Login] [nvarchar](50) NULL,
+	[Email] [nvarchar](255) NULL,
+	[FullName] [nvarchar](50) NULL,
+	[Age] [tinyint] NULL,
+ CONSTRAINT [PK_User_Slave1] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[User_Slave2](
+	[Id] [int] NOT NULL IDENTITY(1,1),
+	[Login] [nvarchar](50) NULL,
+	[Email] [nvarchar](255) NULL,
+	[FullName] [nvarchar](50) NULL,
+	[Age] [tinyint] NULL,
+ CONSTRAINT [PK_User_Slave2] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[User_Slave3](
+	[Id] [int] NOT NULL IDENTITY(1,1),
+	[Login] [nvarchar](50) NULL,
+	[Email] [nvarchar](255) NULL,
+	[FullName] [nvarchar](50) NULL,
+	[Age] [tinyint] NULL,
+ CONSTRAINT [PK_User_Slave3] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[User_Slave4](
+	[Id] [int] NOT NULL IDENTITY(1,1),
+	[Login] [nvarchar](50) NULL,
+	[Email] [nvarchar](255) NULL,
+	[FullName] [nvarchar](50) NULL,
+	[Age] [tinyint] NULL,
+ CONSTRAINT [PK_User_Slave4] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
