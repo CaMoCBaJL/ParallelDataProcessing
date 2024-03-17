@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace SSU.ParallelDataProcessing.Partitioning.DAL
+namespace SSU.ParallelDataProcessing.Partitioning.DAL.Replication
 {
-    public class ReplicapableUserContext :DbContext
+    public class ReplicapableUserContext : DbContext
     {
         private string _dbName;
 

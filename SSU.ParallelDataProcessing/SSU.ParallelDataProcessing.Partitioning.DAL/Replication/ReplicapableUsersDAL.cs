@@ -1,4 +1,4 @@
-﻿namespace SSU.ParallelDataProcessing.Partitioning.DAL
+﻿namespace SSU.ParallelDataProcessing.Partitioning.DAL.Replication
 {
     public class ReplicapableUsersDAL
     {
