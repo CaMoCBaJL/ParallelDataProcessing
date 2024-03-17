@@ -6,9 +6,9 @@ namespace SSU.ParallelDataProcessing.Partitioning.Supervisor
     {
         public UserService() { }
 
-        public UserDTO[] GetUsers()
+        public UserDTO[] GetUsersWithReplications()
         {
-            return new UsersDAL().GetUsers().Select(u => new UserDTO()
+            return new ReplicapableUsersDAL().GetUsers().Select(u => new UserDTO()
             { 
                 Id = u.Id,
                 Age = u.Age,
@@ -18,9 +18,33 @@ namespace SSU.ParallelDataProcessing.Partitioning.Supervisor
             }).ToArray();
         }
 
-        public void AddUser(UserDTO user)
+        public void AddUserWithReplication(UserDTO user)
         {
-            new UsersDAL().AddUser(new User()
+            new ReplicapableUsersDAL().AddUser(new User()
+            {
+                Id = user.Id,
+                Age = user.Age,
+                Login = user.Login,
+                FullName = user.FullName,
+                Email = user.Email,
+            });
+        }
+
+        public UserDTO[] GetUsersWithShards()
+        {
+            return new ReplicapableUsersDAL().GetUsers().Select(u => new UserDTO()
+            {
+                Id = u.Id,
+                Age = u.Age,
+                Login = u.Login,
+                FullName = u.FullName,
+                Email = u.Email,
+            }).ToArray();
+        }
+
+        public void AddUserWithShards(UserDTO user)
+        {
+            new ReplicapableUsersDAL().AddUser(new User()
             {
                 Id = user.Id,
                 Age = user.Age,

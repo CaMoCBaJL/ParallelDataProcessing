@@ -1,7 +1,10 @@
-﻿namespace SSU.ParallelDataProcessing.Partitioning.Supervisor
+﻿using System.Text.Json.Serialization;
+
+namespace SSU.ParallelDataProcessing.Partitioning.Supervisor
 {
     public class UserDTO
     {
+        [JsonIgnore]
         public int Id { get; set; }
 
         public string Login { get; set; }

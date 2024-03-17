@@ -2,14 +2,16 @@
 
 namespace SSU.ParallelDataProcessing.Partitioning.DAL
 {
-    public class UserContext :DbContext
+    public class ReplicapableUserContext :DbContext
     {
+        private string _dbName;
 
-        public UserContext()
+        public ReplicapableUserContext(string dbName)
         {
+            _dbName = dbName;
         }
 
-        public UserContext(DbContextOptions<UserContext> options)
+        public ReplicapableUserContext(DbContextOptions<ReplicapableUserContext> options)
         : base(options)
         {
         }
@@ -18,11 +20,11 @@ namespace SSU.ParallelDataProcessing.Partitioning.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
-                .UseSqlServer("data source=DESKTOP-I90DUCB;initial catalog=SSU.ParallelProcessing;trusted_connection=true;TrustServerCertificate=True");
+                .UseSqlServer($"data source=DESKTOP-I90DUCB;initial catalog={_dbName};trusted_connection=true;TrustServerCertificate=True");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().ToTable("User_Master");
+            modelBuilder.Entity<User>().ToTable("User");
 
             modelBuilder.Entity<User>().HasKey(x => x.Id);
         }

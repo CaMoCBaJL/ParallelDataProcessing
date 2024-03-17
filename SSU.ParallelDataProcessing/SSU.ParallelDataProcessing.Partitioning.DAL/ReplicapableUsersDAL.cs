@@ -1,18 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System.Reflection.Emit;
-
-namespace SSU.ParallelDataProcessing.Partitioning.DAL
+﻿namespace SSU.ParallelDataProcessing.Partitioning.DAL
 {
-    public class UsersDAL
+    public class ReplicapableUsersDAL
     {
-        private readonly string[] _slaveDbNames = { "User_Slave1", "User_Slave2", "User_Slave3", "User_Slave4" };
+        private readonly string[] _slaveDbNames = { "SSU.ParallelProcessing.Slave1", "SSU.ParallelProcessing.Slave2", "SSU.ParallelProcessing.Slave3", "SSU.ParallelProcessing.Slave4" };
 
-        private const string _masterDbName = "User_Master";
+        private const string _masterDbName = "SSU.ParallelProcessing.Master";
 
         public User[] GetUsers()
         {
-            UserContext context = null;
+            ReplicapableUserContext context = null;
 
             foreach (var dbName in _slaveDbNames)
             {
@@ -74,32 +70,11 @@ namespace SSU.ParallelDataProcessing.Partitioning.DAL
             }
         }
 
-        private bool TryGetDbContext(string dbName, out UserContext userContext)
+        private bool TryGetDbContext(string dbName, out ReplicapableUserContext userContext)
         {
-            var contextOptionsBuilder = new DbContextOptionsBuilder<UserContext>();
-            contextOptionsBuilder.UseModel(CreateModel(dbName));
-
-            userContext = new UserContext();
+            userContext = new ReplicapableUserContext(dbName);
 
             return userContext.Database.CanConnect();
-        }
-
-        private IModel CreateModel(string tableName)
-        {
-            var builder = new ModelBuilder();
-
-            builder.Entity<User>().ToTable(tableName);
-
-            builder.Entity<User>().HasKey(x => x.Id);
-
-            builder.Entity<User>().Property(u => u.Id).HasColumnName("Id");
-            builder.Entity<User>().Property(u => u.Id).UseIdentityColumn();
-            builder.Entity<User>().Property(u => u.Age).HasColumnName("Age");
-            builder.Entity<User>().Property(u => u.Email).HasColumnName("Email");
-            builder.Entity<User>().Property(u => u.FullName).HasColumnName("FullName");
-            builder.Entity<User>().Property(u => u.Login).HasColumnName("Login");
-
-            return builder.FinalizeModel();
         }
     }
 }

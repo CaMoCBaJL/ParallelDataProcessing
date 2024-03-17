@@ -17,13 +17,13 @@ namespace SSU.ParallelDataProcessing.Partitioning.Api.Controllers
         [HttpGet("")]
         public UserDTO[] GetUsers()
         {
-            return new UserService().GetUsers();
+            return new UserService().GetUsersWithReplications();
         }
 
         [HttpPost("")] 
         public void AddUser(UserDTO user)
         {
-            new UserService().AddUser(user);
+            new UserService().AddUserWithReplication(user);
         }
     }
 }
