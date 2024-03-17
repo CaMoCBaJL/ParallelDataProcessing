@@ -1,16 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace SSU.ParallelDataProcessing.Partitioning.DAL
+namespace SSU.ParallelDataProcessing.Partitioning.DAL.Sharding
 {
     public class ShardableUserContext : DbContext
     {
-        public ShardableUserContext()
+        private readonly string _tableName;
+
+        public ShardableUserContext(string tableName)
         {
+            _tableName = tableName;
         }
 
-        public ShardableUserContext(DbContextOptions<ReplicapableUserContext> options)
+        public ShardableUserContext(DbContextOptions<ShardableUserContext> options, string tableName)
         : base(options)
         {
+            _tableName = tableName;
         }
 
         public virtual DbSet<User> Users { get; set; }
@@ -21,7 +25,7 @@ namespace SSU.ParallelDataProcessing.Partitioning.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<User>().ToTable(_tableName);
 
             modelBuilder.Entity<User>().HasKey(x => x.Id);
         }

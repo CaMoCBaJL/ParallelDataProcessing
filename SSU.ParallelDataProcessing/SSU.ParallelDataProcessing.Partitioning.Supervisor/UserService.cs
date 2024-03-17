@@ -30,9 +30,9 @@ namespace SSU.ParallelDataProcessing.Partitioning.Supervisor
             });
         }
 
-        public UserDTO[] GetUsersWithShards()
+        public UserDTO[] GetUsersWithSharding()
         {
-            return new ReplicapableUsersDAL().GetUsers().Select(u => new UserDTO()
+            return new ShardableUserDAL().GetUsers().Select(u => new UserDTO()
             {
                 Id = u.Id,
                 Age = u.Age,
@@ -42,9 +42,9 @@ namespace SSU.ParallelDataProcessing.Partitioning.Supervisor
             }).ToArray();
         }
 
-        public void AddUserWithShards(UserDTO user)
+        public void AddUserWithSharding(UserDTO user)
         {
-            new ReplicapableUsersDAL().AddUser(new User()
+            new ShardableUserDAL().AddUser(new User()
             {
                 Id = user.Id,
                 Age = user.Age,

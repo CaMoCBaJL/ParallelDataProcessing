@@ -2,14 +2,18 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Text.RegularExpressions;
 
-namespace SSU.ParallelDataProcessing.Partitioning.DAL
+namespace SSU.ParallelDataProcessing.Partitioning.DAL.Sharding
 {
     public class ShardableUserDAL
     {
         private readonly Dictionary<string, string> _shardTableNames = new Dictionary<string, string>(){
-            {" 1", "User.A-G" },
-            //"User.H-N", "User.O-U", "User.V-Z" }
+            {@"^[A-Ga-g]", "User.A-G" },
+            {@"^[H-Nh-n]", "User.H-N" },
+            {@"^[O-Uo-u]", "User.O-U" },
+            {@"^[V-Zv-z]", "User.V-Z" },
         };
+
+        private readonly string _dumpShardTableName = "Other_data";
 
         public List<User> GetUsers()
         {
@@ -30,7 +34,16 @@ namespace SSU.ParallelDataProcessing.Partitioning.DAL
 
         public void AddUser(User user)
         {
+            var shard = GetShardName(user);
 
+            if (!TryGetDbContext(shard, out var context))
+            {
+                throw new Exception("Шард занят. ждитес");
+            }
+            user.Id = context.Users.Count() + 1;
+
+            context.Add(user);
+            context.SaveChanges();
         }
 
         private string GetShardName(User user)
@@ -43,15 +56,15 @@ namespace SSU.ParallelDataProcessing.Partitioning.DAL
                 }
             }
 
-            throw new Exception("Не корректный ввод!");
+            return _dumpShardTableName;
         }
 
-        private bool TryGetDbContext(string dbName, out ShardableUserContext userContext)
+        private bool TryGetDbContext(string shardName, out ShardableUserContext userContext)
         {
             var contextOptionsBuilder = new DbContextOptionsBuilder<ShardableUserContext>();
-            contextOptionsBuilder.UseModel(CreateModel(dbName));
+            contextOptionsBuilder.UseModel(CreateModel(shardName));
 
-            userContext = new ShardableUserContext();
+            userContext = new ShardableUserContext(contextOptionsBuilder.Options, shardName);
 
             return userContext.Database.CanConnect();
         }
